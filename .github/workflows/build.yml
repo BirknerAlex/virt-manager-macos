@@ -32,6 +32,4 @@ jobs:
           push: true
           tags: tyrola/virt-manager:latest
           context: docker/
-          platforms:
-            - linux/arm64
-            - linux/amd64
+          platforms: linux/arm64,linux/amd64
