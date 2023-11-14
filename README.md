@@ -1,5 +1,20 @@
-Virt Manager on macOS
+virt-manager on macOS
 =====================
+
+This is a Docker container for running virt-manager on macOS with the help of Docker and Xquartz.
+It uses X11 forwarding to display the GUI on the host. Running virt-manager on macOS is not officially supported by the virt-manager project.
+This is a workaround to get it running on macOS. 
+
+It also supports SSH connections to remote hosts via GPG agent forwarding, e.g. using a Yubikey.
+
+There were some packages on homebrew, but they are outdated and not working anymore. This
+is why I created this Docker container which is based on the latest virt-manager version available on Fedora.
+
+The pre-build container is available on Docker Hub: https://hub.docker.com/r/tyrola/virt-manager
+It is available for x86_64 and arm64 (Apple Silicon) architectures.
+
+![virt-manager usage example](docs/usage.png)
+
 
 ### Requirements
 
@@ -20,7 +35,10 @@ brew install --cask docker
 
 ### Preparation
 
-1. Open XQuartz, go to settings, then Security and allow connections from Network-Clients.
+1. Open XQuartz
+   - Open settings
+   - Chose Security tab
+   - Enable "Allow connections from network clients"
 
 ![XQuartz Settings Screenshot](docs/settings.png)
 
@@ -31,10 +49,13 @@ xhost +localhost
 
 ### Running
 
-Start Container with following commands.
+Start the container with following commands:
 
 ```bash
+# Create Docker volume for storing virt-manager config
 docker volume create virt-manager-config
+
+# Run container
 docker run -t -i --rm \
   -v virt-manager-cfg:/home/default/.config/:rw \
   --mount type=bind,src=/run/host-services/ssh-auth.sock,target=/run/host-services/ssh-auth.sock \
