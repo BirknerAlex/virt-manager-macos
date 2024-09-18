@@ -8,4 +8,5 @@ dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address && \
     mkdir -p /home/default/.config/dconf && chown  -R 1001:0 /home/default/
 
 echo "--- Starting Virt-Manager as default user"
-su -w DISPLAY,SSH_AUTH_SOCK -l -s /bin/bash -c "virt-manager --no-fork" - default
+# shellcheck disable=SC2145
+su -w DISPLAY,SSH_AUTH_SOCK -l -s /bin/bash -c "virt-manager --no-fork $@" - default

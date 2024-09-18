@@ -1,4 +1,4 @@
-FROM fedora:39
+FROM fedora:40
 
 RUN dnf install -y virt-manager openssh-clients openssh-askpass dbus-x11  && \
     dnf upgrade -y && \
