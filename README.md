@@ -62,3 +62,25 @@ docker run -t -i --rm \
   --name virt-manager \
    tyrola/virt-manager:latest
 ```
+
+### SSH Tunneling
+
+If the remote host is using a local connection for QEMU, use an SSH tunnel to access the remote host.
+Run this SSH tunnel outside of the docker container, on your local machine:
+
+```bash
+ssh -L 0.0.0.0:16509:127.0.0.1:16509 user@remotehost
+```
+
+This opens up a SSH tunnel from your local machine to the remote host. The remote libvirt
+socket is running on `127.0.0.1:16509` in this example. Change ports if necessary.
+
+Once the SSH socket is established, you can connect to the remote host from within the virt-manager container.
+Use the following URI to connect to the remote host:
+
+```bash
+qemu+tcp://host.docker.internal:16509/system
+```
+
+The host.docker.internal address is a special DNS name that resolves to the internal
+IP address of your workstation.
